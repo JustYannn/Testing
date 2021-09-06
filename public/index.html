@@ -1,20 +1,29 @@
-<title>WA BOT</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="/socket.io/socket.io.js"></script>
-<a href="/configs">Click here to set config</a>
-<h1 id="sts">scan qr with whatsapp web</h1>
-<img id="qr"></img>
-<script type="text/javascript">
-   const socket = io();
-   socket.on("qr", (qr) => {
-   if (!qr) return document.getElementById("sts").innerText="Connected succses!"
-   document.getElementById("qr").src= qr;
-   })
-   socket.on("con", (d) => {
-   document.getElementById("sts").innerText=`connected to : ${d.jid}`
-   document.getElementById("qr").src= "/media/fake.jpeg";
-   })
-   socket.on("close", (d) => {
-   document.getElementById("sts").innerText="Disconnected";
-   document.getElementById("qr").src= null})
-</script>
+<html>
+<head>
+  <title>Web</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <script src="main.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container-fluid pt-3">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top"></nav>
+  <div class="spinner-border text-primary"></div>
+</div>
+
+</body>
+</html>
