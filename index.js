@@ -2077,9 +2077,9 @@ const ingfo = await getGroup(totalchat)
                 break
 
 case 'speed':
-let timestampi = speed();
-				let latensii = speed() - timestampi
-reply(`${latensii.toFixed(4)} Second!`)
+let stemp = speed();
+				let laten = speed() - stemp
+reply(`Speed : *${laten.toFixed(4)} Second!*`)
 break
 
             default:
