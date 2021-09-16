@@ -593,6 +593,7 @@ Prefix : ${prefix}
 ► _${prefix}setfake_
 ► _${prefix}setreply_
 ► _${prefix}ping_
+► _${prefix}speed_
 ► _${prefix}inspect_
 ► _${prefix}join_
 ► _${prefix}caripesan_ <query>
@@ -2075,33 +2076,11 @@ const ingfo = await getGroup(totalchat)
                 })
                 break
 
-case 'comic':
-                if (args.length < 1) return reply(`Kirim perintah *${prefix}foooliokanan* teks`)
-                reply(mess.wait)
-                const foooKanan = q
-                const foooliKanan = foooKanan.replace(/(\S+\s*){1,13}/g, '$&\n')
-                const fooolKanan = foooKanan.split('\n').slice(0, 38).join('\n')
-                spawn('convert', [
-                    './media/nulis/images/folio/sebelumkanan.jpg',
-                    '-font',
-                    './media/sia/Stanberry.ttf',
-                    '-size',
-                    '1280x1280',
-                    '-pointsize',
-                    '23',
-                    '-interline-spacing',
-                    '12',
-                    '-annotate',
-                    '+89+190',
-                    fooolKanan,
-                    './media/nulis/images/folio/setelahkanan.jpg'
-                ])
-                .on('error', () => reply(mess.error.api))
-                .on('exit', () => {
-                    puki.sendMessage(from, fs.readFileSync('./media/nulis/images/folio/setelahkanan.jpg'), image, {quoted: mek, caption: `Sukses`})
-                
-                })
-                break
+case 'speed':
+let timestampi = speed();
+				let latensii = speed() - timestampi
+reply(`${latensii.toFixed(4)} Second!`)
+break
 
             default:
             
