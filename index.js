@@ -490,7 +490,7 @@ switch (command) {
 	break
     case 'jadibot':
     if(mek.key.fromMe) return reply('Tidak bisa jadibot di dalam bot')
-    jadibot(reply,puki,from)
+    jadibot(reply,sender,puki,from)
     break
     case 'stopjadibot':
     if(mek.key.fromMe)return reply('tidak bisa stopjadibot kecuali owner')
