@@ -105,7 +105,7 @@ if (!welkom.includes(anu.jid)) return
 			if (anu.action == 'remove') {
 					for (let i of mems) {
 					const bye = await new canvas.Goodbye()
-                    .setUsername(await getName(i))
+                    .setUsername(await puki.getName(i))
                     .setDiscriminator(mdata.participants.length)
                     .setMemberCount(mdata.participants.length)
                     .setGuildName(mdata.subject)
