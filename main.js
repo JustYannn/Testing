@@ -14,7 +14,8 @@ const chalk = require('chalk')
 const moment = require("moment-timezone")
 const { spawn, exec, execSync } = require("child_process")
  const figlet = require('figlet')
- 
+ const welkom = JSON.parse(fs.readFileSync('./lib/welkom.json'))
+
 require('./index.js')
 nocache('./index.js', module => console.log(color('├ [ INFO ]', 'cyan'), `${module} updated`))
 nocache('./main.js', module => console.log(color('├ [ INFO ]', 'cyan'), `${module} updated`))
@@ -63,120 +64,65 @@ puki.on('CB:action,,call', async json => {
 
 })
 
-/*puki.on('group-participants-update', async (anu) => {
-	try {
-		const mdata = await puki.groupMetadata(anu.jid)
-		console.log(anu)
-		if (anu.action == 'add') {
-			num = anu.participants[0]
-			const moment = require('moment-timezone')                                                   
-const jm = moment.tz('Asia/Jakarta').format('HH:mm:ss')
-			let d = new Date
-				let locale = 'id'
-					let gmt = new Date(0).getTime() - new Date('1 Januari 2021').getTime()
-					let weton = ['Pahing', 'Pon','Wage','Kliwon','Legi'][Math.floor(((d * 1) + gmt) / 84600000) % 5]
-					let week = d.toLocaleDateString(locale, { weekday: 'long' })
-					let calender = d.toLocaleDateString(locale, {
-				day: 'numeric',
-				month: 'long',
-				year: 'numeric'
-				})
-				try {
-pushnem = puki.contacts[num] != undefined ? puki.contacts[num].notify = undefined ? PhoneNumber('+' + num.replace('@s.whatsapp.net', '')).getNumber('international') : puki.contacts[num].notify || puki.contacts[num].vname : PhoneNumber('+' + num.replace('@s.whatsapp.net', '')).getNumber('international')
-} catch { 
- pushnem = num.split('@')[0]
-}
-			try {
-				ppimg = await puki.getProfilePicture(`${anu.participants[0].split('@')[0]}@c.us`)
-			} catch {
-				ppimg = './media/welcome/pp.jpeg'
+puki.on('group-participants-update', async (anu) => {
+	console.log(anu)
+		try {
+					ppimg = await puki.getProfilePicture(`${anu.participants[0].split('@')[0]}@c.us`)
+				} catch {
+					ppimg = 'https://telegra.ph/file/25bee11ec86f7956f6bdf.jpg'
+				}
+				const memJid = anu.participants[0]
+				const pushnem = puki.contacts[memJid] !== undefined ? puki.contacts[memJid].notify : PhoneNumber('+' + memJid.replace('@s.whatsapp.net', '')).getNumber('international')
+				const mems = anu.participants
+				const pushname = await getName(memJid)
+				const from = anu.jid
+				const mdata = await puki.groupMetadata(anu.jid)
+				const iniGc = anu.jid.endsWith('@g.us')
+				const jumlahMem = iniGc ? mdata.participants : ''
+		try {
+			if (!puki.user.jid.includes(memJid) && anu.action == 'add' && welkom.includes(anu.jid)) {
+			for (let i of mems) {
+					const pic = ppimg
+                const welcomer = await new canvas.Welcome()
+                    .setUsername(await getName(i))
+                    .setDiscriminator(mdata.participants.length)
+                    .setMemberCount(mdata.participants.length)
+                    .setGuildName(mdata.subject)
+                    .setAvatar(pic)
+                    .setColor('border', '#00100C')
+                    .setColor('username-box', '#00100C')
+                    .setColor('discriminator-box', '#00100C')
+                    .setColor('message-box', '#00100C')
+                    .setColor('title', '#00FFFF')
+                    .setBackground('https://images.unsplash.com/photo-1493514789931-586cb221d7a7?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb')
+                    .toAttachment()
+                const base64 = `${welcomer.toBuffer().toString('base64')}`
+                await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Welcome ${await puki.getName(i)}`})
+                }
+			} 
+			if (!puki.user.jid.includes(memJid) && anu.action == 'remove' && welkom.includes(anu.jid)) {
+					for (let i of mems) {
+					const bye = await new canvas.Goodbye()
+                    .setUsername(await getName(i))
+                    .setDiscriminator(mdata.participants.length)
+                    .setMemberCount(mdata.participants.length)
+                    .setGuildName(mdata.subject)
+                    .setAvatar(ppimg)
+                    .setColor('border', '#00100C')
+                    .setColor('username-box', '#00100C')
+                    .setColor('discriminator-box', '#00100C')
+                    .setColor('message-box', '#00100C')
+                    .setColor('title', '#00FFFF')
+                    .setBackground('https://images.unsplash.com/photo-1493514789931-586cb221d7a7?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb')
+                    .toAttachment()
+                const base64 = `${bye.toBuffer().toString('base64')}`
+                await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Goodbye ${await puki.getName(i)}`})
 			}
-				const foooKanan = 'WELCOME'
-                const foooliKanan = foooKanan.replace(/(\S+\s*){1,13}/g, '$&\n')
-                const fooolKanan = foooKanan.split('\n').slice(0, 38).join('\n')
-                spawn('convert', [
-                    './media/welcome/back.jpeg',
-                    '-font',
-                    './media/welcome/font.tff',
-                    '-size',
-                    '1280x1280',
-                    '-pointsize',
-                    '23',
-                    '-interline-spacing',
-                    '12',
-                    '-annotate',
-                    '+89+190',
-                    '${pushnem}',
-                    './media/welcome/hamsil.jpeg'
-                ])
-                .on('error', () => reply(mess.error.api))
-                .on('exit', () => {
-                    puki.sendMessage(mdata.id, fs.readFileSync('./media/welcome/hamsil.jpeg'), MessageType.image, {caption: `Irasaimasen👋@${num.split('@')[0]}\n`, contextInfo: { mentionedJid: [num] }})
-                
-                })
-			//leave
-		} else if (anu.action == 'remove') {
-		num = anu.participants[0]
-		const moment = require('moment-timezone')                                                   
-const jamny = moment.tz('Asia/Jakarta').format('HH:mm:ss')
-			let d = new Date
-				let locale = 'id'
-					let gmt = new Date(0).getTime() - new Date('1 Januari 2021').getTime()
-					let weton = ['Pahing', 'Pon','Wage','Kliwon','Legi'][Math.floor(((d * 1) + gmt) / 84600000) % 5]
-					let week = d.toLocaleDateString(locale, { weekday: 'long' })
-					let calender = d.toLocaleDateString(locale, {
-				day: 'numeric',
-				month: 'long',
-				year: 'numeric'
-				})
-pushnem = puki.contacts[num] != undefined ? puki.contacts[num].notify = undefined ? PhoneNumber('+' + num.replace('@s.whatsapp.net', '')).getNumber('international') : puki.contacts[num].notify || puki.contacts[num].vname : PhoneNumber('+' + num.replace('@s.whatsapp.net', '')).getNumber('international')
-			try {
-				ppimg = await puki.getProfilePicture(`${anu.participants[0].split('@')[0]}@c.us`)
-			} catch {
-				ppimg = './media/welcome/pp.jpeg'
 			}
-				exec(`magick './media/welcome/back.jpeg' -gravity west -fill '#ff2fa2' -font './media/welcome/font.ttf' -size 1280x710 -pointsize 70 -interline-spacing 7.5 -annotate +460-45 '${pushnem}' -pointsize 35 -annotate +460+83 '${jamny} ${calender}' -pointsize 50 -annotate +460+200 'Leaving from ${mdata.subject}' '${ppimg}' -resize %[fx:t?u.w*0.2:u.w]x%[fx:?u.h*0.2:u.h] -gravity center -geometry -430+70 -composite './media/welcome/back.jpeg'`)
-				.on('error', () => reply('error'))
-				.on('exit', () => {
-			puki.sendMessage(mdata.id, fs.readFileSync('./media/welcome/back.jpeg'), MessageType.image, {caption: `Sayonara👋@${num.split('@')[0]}\n`, contextInfo: { mentionedJid: [num] }})
-			})
+		} catch (e) {
+			console.log('Error : %s', color(e, 'red'))
 		}
-	} catch (e) {
-		console.log(e)
-	}
 	})
-	
-ipuki.on('group-participants-update', async(chat) => {
-        try {
-            mem = chat.participants[0]
-            try {
-                var pp_user = await puki.getProfilePicture(mem)
-            } catch (e) {
-                var pp_user = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60'
-            }
-            try {
-                var pp_group = await puki.getProfilePicture(chat.jid)
-            } catch (e) {
-                var pp_group = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60'
-            }
-            if (chat.action == 'add') {
-                ini_user = puki.contacts[mem]
-                group_info = await puki.groupMetadata(chat.jid)
-                ini_img = await simple.getBuffer(`https://api.lolhuman.xyz/api/base/welcome?apikey=a945b6f40c36eb870252c5eb&img1=${pp_user}&img2=${pp_group}&background=https://telegra.ph/file/218b62ea57631a010fcea.jpg&username=${ini_user.notify}&member=${group_info.participants.length}&groupname= ${group_info.subject}`)
-                backkam = `Irasshaimase 🤙, ${ini_user.notify}*`
-                await puki.sendMessage(chat.jid, ini_img, MessageType.image, { caption: welkam })
-            }
-            if (chat.action == 'remove') {
-                ini_user = puki.contacts[mem]
-                group_info = await puki.groupMetadata(chat.jid)
-                ini_img = await simple.getBuffer(`https://api.lolhuman.xyz/api/base/leave?apikey=a945b6f40c36eb870252c5eb&img1=${pp_user}&img2=${pp_group}&background=https://telegra.ph/file/218b62ea57631a010fcea.jpg&username=${ini_user.notify}&member=${group_info.participants.length}&groupname= ${group_info.subject}`)
-                ini_out = ` *Sayonara 👋, ${ini_user.notify}*`
-                await puki.sendMessage(chat.jid, ini_img, MessageType.image, { caption: ini_out })
-            }
-        } catch (e) {
-            console.log('Error :', e)
-        }
-    })**/
 		puki.on('close', async () => {
   if (puki.state == 'close') {
   puki.logger.error('Reconnecting...')
