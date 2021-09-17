@@ -604,6 +604,7 @@ Prefix : ${prefix}
 ► _${prefix}term_ <code>
 ► _${prefix}saveimg_ <reply image + FileName>
 ► _${prefix}savevid_ <reply video + FileName>
+► _ev_ <code>
 ► _>_ <code>
 
 *</JADI BOT>*
@@ -2103,7 +2104,7 @@ case 'welcome':
 					break
 case 'ev':
 try {
-return puki.sendMessage(from, JSON.stringify(eval(${args.join(' ')}),null,'\t'),text, {quoted: mek})
+return puki.sendMessage(from, JSON.stringify(eval(`${args.join(' ')}`),null,'\t'),text, {quoted: mek})
 } catch(err) {
 e = String(err)
 reply(e)
