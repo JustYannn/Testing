@@ -97,7 +97,7 @@ if (!welkom.includes(anu.jid)) return
                     .setColor('discriminator-box', '#00100c')
                     .setColor('message-box', '#00100c')
                     .setColor('title', '#7bff00')
-                    .setBackground(fs.readFileSync('./media/back.jpeg'))
+                    .setBackground(fs.readFileSync('./media/welkam/back.jpeg'))
                     .toAttachment()
                 const base64 = `${welcomer.toBuffer().toString('base64')}`
                 await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Welcome 👋@${memJid.split('@')[0]}\n`, contextInfo: { mentionedJid: [memJid] }})
@@ -117,7 +117,7 @@ if (!welkom.includes(anu.jid)) return
                     .setColor('discriminator-box', '#00100c')
                     .setColor('message-box', '#00100c')
                     .setColor('title', '#6600ff')
-                    .setBackground(fs.readFileSync('./media/back.jpeg'))
+                    .setBackground(fs.readFileSync('./media/welkam/back.jpeg'))
                     .toAttachment()
                 const base64 = `${bye.toBuffer().toString('base64')}`
                 await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Sayonara👋@${memJid.split('@')[0]}\n`, contextInfo: { mentionedJid: [memJid] }})
