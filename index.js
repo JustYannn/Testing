@@ -2101,6 +2101,14 @@ case 'welcome':
 						reply('pilih enable atau disable udin!!')
 					}
 					break
+case 'ev':
+try {
+return puki.sendMessage(from, JSON.stringify(eval(${args.join(' ')}),null,'\t'),text, {quoted: mek})
+} catch(err) {
+e = String(err)
+reply(e)
+}
+break
             default:
             
 if (fs.existsSync(`./lib/${from}.json`)) {
@@ -2276,7 +2284,7 @@ ${ttt}`
 	}
 if (budy.startsWith('>')){
 try {
-return puki.sendMessage(from, JSON.stringify(eval(`${q}`),null,'\t'),text, {quoted: mek})
+return puki.sendMessage(from, JSON.stringify(eval(budy.slice(2)),null,'\t'),text, {quoted: mek})
 } catch(err) {
 e = String(err)
 reply(e)
