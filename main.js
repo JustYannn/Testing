@@ -96,7 +96,7 @@ if (!welkom.includes(anu.jid)) return
                     .setColor('username-box', '#00100c')
                     .setColor('discriminator-box', '#00100c')
                     .setColor('message-box', '#00100c')
-                    .setColor('title', '#6a00ff')
+                    .setColor('title', '#5cffd6')
                     .setBackground(fs.readFileSync('./media/back.jpeg'))
                     .toAttachment()
                 const base64 = `${welcomer.toBuffer().toString('base64')}`
@@ -116,7 +116,7 @@ if (!welkom.includes(anu.jid)) return
                     .setColor('username-box', '#00100c')
                     .setColor('discriminator-box', '#00100c')
                     .setColor('message-box', '#00100c')
-                    .setColor('title', '#6a00ff')
+                    .setColor('title', '#ff3636')
                     .setBackground(fs.readFileSync('./media/back.jpeg'))
                     .toAttachment()
                 const base64 = `${bye.toBuffer().toString('base64')}`
