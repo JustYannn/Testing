@@ -52,7 +52,7 @@ const _scommand = JSON.parse(fs.readFileSync('./lib/scommand.json'))
 const simple = require('./lib/simple.js')
 const setGelud = require('./lib/gameGelud.js')
 const { sendStickerFromUrl,sendMediaUrl, sendSticker, sendAudio, sendImage, sendVideo, sendContactArray, rejectIncomingCall, updateProfilePicture, copyNForward, cMod, genOrderMessage, waitEvent, sendImageAsSticker, sendMp4AsSticker, resend, sendContact, sendGroupV4Invite, prepareMessageMedia, getFile, sendFile, sendButton, sendButtonImg, send2ButtonImg, send3ButtonImg, send2Button, send3Button, fakeReply, fakeReply2, parseMention, getName, downloadM, serializeM, logic, generateProfilePicture, processTime, getRandom, getBuffer, fetchJson, fetchText, getGroupAdmins, runtime, clockString, sleep, getTime, formatDate, generateThumbnail, extractVideoThumb, delay, format, createExif, modStick, getBase64, webp2mp4File} = simple
-		const welkom = JSON.parse(fs.readFileSync('./src/welkom.json'))
+		const welkom = JSON.parse(fs.readFileSync('./lib/welkom.json'))
 	
 ky_ttt = []
 playing = []
