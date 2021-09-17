@@ -27,14 +27,13 @@ const starts = async (puki = new WAConnection(), mek) => {
 puki.removeAllListeners('close')
 puki.removeAllListeners('error')
 m = simple.smsg(puki, mek)
-console.log(color(figlet.textSync('BOT', {
+console.log(color(figlet.textSync('HEROKU', {
 		font: 'Alpha',
 		horizontalLayout: 'center',
 		vertivalLayout: 'center',
 		width: 50,
 		whitespaceBreak: false
 	}), 'cyan'))
-    console.log(banner.string)
     puki.on('qr', () => {
         console.log(color('[','white'), color('!','red'), color(']','white'), color(' Scan bang'))
     })
@@ -60,7 +59,7 @@ puki.on('CB:action,,call', async json => {
     let { from } = json[2][0][1]
     let id = json[2][0][2][0][1]["call-id"]
     await puki.rejectIncomingCall(from, id)
-   await puki.sendMessage(from, '「 Reject Call 」\nAuto Reject, Maaf', 'conversation')
+   ///await puki.sendMessage(from, '「 Reject Call 」\nAuto Reject, Maaf', 'conversation')
 
 })
 
