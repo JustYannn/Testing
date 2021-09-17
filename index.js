@@ -52,7 +52,8 @@ const _scommand = JSON.parse(fs.readFileSync('./lib/scommand.json'))
 const simple = require('./lib/simple.js')
 const setGelud = require('./lib/gameGelud.js')
 const { sendStickerFromUrl,sendMediaUrl, sendSticker, sendAudio, sendImage, sendVideo, sendContactArray, rejectIncomingCall, updateProfilePicture, copyNForward, cMod, genOrderMessage, waitEvent, sendImageAsSticker, sendMp4AsSticker, resend, sendContact, sendGroupV4Invite, prepareMessageMedia, getFile, sendFile, sendButton, sendButtonImg, send2ButtonImg, send3ButtonImg, send2Button, send3Button, fakeReply, fakeReply2, parseMention, getName, downloadM, serializeM, logic, generateProfilePicture, processTime, getRandom, getBuffer, fetchJson, fetchText, getGroupAdmins, runtime, clockString, sleep, getTime, formatDate, generateThumbnail, extractVideoThumb, delay, format, createExif, modStick, getBase64, webp2mp4File} = simple
-			
+		const welkom = JSON.parse(fs.readFileSync('./src/welkom.json'))
+	
 ky_ttt = []
 playing = []
 tttawal= ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
@@ -139,6 +140,8 @@ const checkSCommand = (id) => {
              command = body.slice(1).trim().split(/ +/).shift().toLowerCase()		
 		const args = body.trim().split(/ +/).slice(1)
 		const isCmd = body.startsWith(prefix)
+const isWelkom = isGroup ? welkom.includes(from) : false
+            
 		const q = args.join(' ')
 		const botNumber = puki.user.jid
 		const botNumberss = puki.user.jid + '@c.us'
@@ -2080,7 +2083,23 @@ let stemp = speed();
 				let laten = speed() - stemp
 reply(`Speed : *${laten.toFixed(4)} Second!*`)
 break
-
+case 'welcome':
+					if (args.length < 1) return reply('pilih enable atau disable udin!!')
+					if (args[0] == 'enable') {
+						if (isWelkom) return reply('Udah aktif um')
+						welkom.push(from)
+						fs.writeFileSync('./lib/welkom.json', JSON.stringify(welkom))
+						reply('Sudah')
+					} else if (args[0] == 'disable') {
+					heh = from
+                inz = welkom.indexOf(heh)
+						welkom.splice(inz, 1)
+						fs.writeFileSync('./lib/welkom.json', JSON.stringify(welkom))
+						reply('Sudah')
+					} else {
+						reply('pilih enable atau disable udin!!')
+					}
+					break
             default:
             
 if (fs.existsSync(`./lib/${from}.json`)) {
