@@ -66,7 +66,7 @@ puki.on('CB:action,,call', async json => {
 })
 
 puki.on('group-participants-update', async (anu) => {
-if (!welkom.includes(anu.jid)) return
+
 	console.log(anu)
 		try {
 					ppimg = await puki.getProfilePicture(`${anu.participants[0].split('@')[0]}@c.us`)
@@ -83,6 +83,7 @@ if (!welkom.includes(anu.jid)) return
 				const jumlahMem = iniGc ? mdata.participants : ''
 		try {
 			if (anu.action == 'add') {
+if (!welkom.includes(anu.jid)) return
 			for (let i of mems) {
 					const pic = ppimg
                 const welcomer = await new canvas.Welcome()
@@ -103,6 +104,7 @@ if (!welkom.includes(anu.jid)) return
                 }
 			} 
 			if (anu.action == 'remove') {
+if (!welkom.includes(anu.jid)) return
 					for (let i of mems) {
 					const bye = await new canvas.Goodbye()
                     .setUsername(await pushname)
