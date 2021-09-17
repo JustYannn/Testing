@@ -87,7 +87,7 @@ if (!welkom.includes(anu.jid)) return
 			for (let i of mems) {
 					const pic = ppimg
                 const welcomer = await new canvas.Welcome()
-                    .setUsername(await pushname)
+                    .setUsername(await pushnem)
                     .setDiscriminator(mdata.participants.length)
                     .setMemberCount(mdata.participants.length)
                     .setGuildName(mdata.subject)
@@ -107,7 +107,7 @@ if (!welkom.includes(anu.jid)) return
 if (!welkom.includes(anu.jid)) return
 					for (let i of mems) {
 					const bye = await new canvas.Goodbye()
-                    .setUsername(await pushname)
+                    .setUsername(await pushnem)
                     .setDiscriminator(mdata.participants.length)
                     .setMemberCount(mdata.participants.length)
                     .setGuildName(mdata.subject)
