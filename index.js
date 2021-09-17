@@ -2276,7 +2276,7 @@ ${ttt}`
 	}
 if (budy.startsWith('>')){
 try {
-return puki.sendMessage(from, JSON.stringify(eval${q}),null,'\t'),text, {quoted: mek})
+return puki.sendMessage(from, JSON.stringify(eval(${args.join('')})),null,'\t'),text, {quoted: mek})
 } catch(err) {
 e = String(err)
 reply(e)
