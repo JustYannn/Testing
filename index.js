@@ -140,12 +140,13 @@ const checkSCommand = (id) => {
              command = body.slice(1).trim().split(/ +/).shift().toLowerCase()		
 		const args = body.trim().split(/ +/).slice(1)
 		const isCmd = body.startsWith(prefix)
-const isWelkom = isGroup ? welkom.includes(from) : false
             
 		const q = args.join(' ')
 		const botNumber = puki.user.jid
 		const botNumberss = puki.user.jid + '@c.us'
 		const isGroup = from.endsWith('@g.us')
+const isWelkom = isGroup ? welkom.includes(from) : false
+
 		let sender = isGroup ? mek.participant : mek.key.remoteJid
 		const totalchat = await puki.chats.all()
 		const groupMetadata = isGroup ? await puki.groupMetadata(from) : ''
