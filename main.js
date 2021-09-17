@@ -74,7 +74,7 @@ puki.on('group-participants-update', async (anu) => {
 				const memJid = anu.participants[0]
 				const pushnem = puki.contacts[memJid] !== undefined ? puki.contacts[memJid].notify : PhoneNumber('+' + memJid.replace('@s.whatsapp.net', '')).getNumber('international')
 				const mems = anu.participants
-				const pushname = await getName(memJid)
+				const pushname = await puki.getName(memJid)
 				const from = anu.jid
 				const mdata = await puki.groupMetadata(anu.jid)
 				const iniGc = anu.jid.endsWith('@g.us')
@@ -84,7 +84,7 @@ puki.on('group-participants-update', async (anu) => {
 			for (let i of mems) {
 					const pic = ppimg
                 const welcomer = await new canvas.Welcome()
-                    .setUsername(await getName(i))
+                    .setUsername(await puki.getName(i))
                     .setDiscriminator(mdata.participants.length)
                     .setMemberCount(mdata.participants.length)
                     .setGuildName(mdata.subject)
@@ -94,10 +94,10 @@ puki.on('group-participants-update', async (anu) => {
                     .setColor('discriminator-box', '#00100C')
                     .setColor('message-box', '#00100C')
                     .setColor('title', '#00FFFF')
-                    .setBackground('https://images.unsplash.com/photo-1493514789931-586cb221d7a7?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb')
+                    .setBackground(fs.readFileSync('./media/back.jpeg'))
                     .toAttachment()
                 const base64 = `${welcomer.toBuffer().toString('base64')}`
-                await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Welcome ${await puki.getName(i)}`})
+                await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Welcome 👋@${memJid.split('@')[0]}\n`, contextInfo: { mentionedJid: [memJid] }})
                 }
 			} 
 			if (!puki.user.jid.includes(memJid) && anu.action == 'remove' && welkom.includes(anu.jid)) {
@@ -113,10 +113,10 @@ puki.on('group-participants-update', async (anu) => {
                     .setColor('discriminator-box', '#00100C')
                     .setColor('message-box', '#00100C')
                     .setColor('title', '#00FFFF')
-                    .setBackground('https://images.unsplash.com/photo-1493514789931-586cb221d7a7?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb')
+                    .setBackground(fs.readFileSync('./media/back.jpeg'))
                     .toAttachment()
                 const base64 = `${bye.toBuffer().toString('base64')}`
-                await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Goodbye ${await puki.getName(i)}`})
+                await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Sayonara👋@${memJid.split('@')[0]}\n`, contextInfo: { mentionedJid: [memJid] }})
 			}
 			}
 		} catch (e) {
