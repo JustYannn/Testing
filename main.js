@@ -66,7 +66,7 @@ puki.on('CB:action,,call', async json => {
 })
 
 puki.on('group-participants-update', async (anu) => {
-
+if (!welkom.includes(anu.jid)) return
 	console.log(anu)
 		try {
 					ppimg = await puki.getProfilePicture(`${anu.participants[0].split('@')[0]}@c.us`)
