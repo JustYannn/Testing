@@ -55,7 +55,6 @@ const { sendStickerFromUrl,sendMediaUrl, sendSticker, sendAudio, sendImage, send
 		const welkom = JSON.parse(fs.readFileSync('./lib/welkom.json'))
 	
 ky_ttt = []
-playing = []
 tttawal= ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
 baterai = {
 	battery: "" || "Tidak terdeteksi",
