@@ -1807,7 +1807,6 @@ break
                 break
             case 'add':
 					if (!isGroup) return reply(mess.only.group)
-					if (!isOwner & !dev.key.fromMe & !isGroupAdmins) return reply('Bot bukan admin')
 					if (!isBotGroupAdmins) return reply(mess.badmin)
 					if (args.length < 1) return reply('Yang mau di add?')
 					if (args[0].startsWith('08')) return reply('Gunakan kode negara')
