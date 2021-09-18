@@ -1937,11 +1937,11 @@ const ingfo = await getGroup(totalchat)
             if ( isMedia && !mek.message.videoMessage || isQuotedImage ) {
             const omce = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
             once = await puki.downloadMediaMessage(omce)
-            puki.sendMessage(from, once, image, { viewOnce : true})
+            puki.sendMessage(from, once, image, { quoted: mek, viewOnce : true})
             } else if (isQuotedVideo) {
             	const omce2 = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
             once2 = await puki.downloadMediaMessage(omce2)
-            puki.sendMessage(from, once2, video, { viewOnce : true})
+            puki.sendMessage(from, once2, video, { quoted: mek, viewOnce : true})
             } else {
             fakestatus( 'Reply image/video!!')
             }
