@@ -1789,12 +1789,10 @@ case 'spam':
 		    reply('Sayonara')
 			break
             case 'kick':
-if (isCmd && !isBotGroupAdmins) return
-		if (isCmd && !isGroupAdmins) return
 try {
 	if (msg.message.extendedTextMessage === undefined || msg.message.extendedTextMessage === null) return iky.sendReply('*Tag Target Yang Ingin Ditendang!*')
 	mentioned = msg.message.extendedTextMessage.contextInfo.mentionedJid[0]
-	puki.mentions(`*Sayonara @${mentioned.split('@')[0]}*👋`, mentioned, true)
+	puki.mentions(`Sayonara`, mentioned, true)
 	puki.groupRemove(from, [mentioned])
 } catch {
 	reply('*Tag Target Yang Ingin Ditendang!*')
