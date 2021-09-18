@@ -14,7 +14,7 @@ const chalk = require('chalk')
 const moment = require("moment-timezone")
 const { spawn, exec, execSync } = require("child_process")
  const figlet = require('figlet')
- const welkom = JSON.parse(fs.readFileSync('./lib/welkom.json'))
+ const welkom = JSON.parse(fs.readFileSync('./lib/welkom.json'));
 const canvas = require('discord-canvas')
 
 require('./index.js')
@@ -83,7 +83,6 @@ if (!welkom.includes(anu.jid)) return
 				const jumlahMem = iniGc ? mdata.participants : ''
 		try {
 			if (anu.action == 'add') {
-if (!welkom.includes(anu.jid)) return
 			for (let i of mems) {
 					const pic = ppimg
                 const welcomer = await new canvas.Welcome()
@@ -104,7 +103,6 @@ if (!welkom.includes(anu.jid)) return
                 }
 			} 
 			if (anu.action == 'remove') {
-if (!welkom.includes(anu.jid)) return
 					for (let i of mems) {
 					const bye = await new canvas.Goodbye()
                     .setUsername(await pushnem)
