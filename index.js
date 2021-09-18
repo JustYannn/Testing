@@ -1789,7 +1789,7 @@ case 'spam':
 			break
             case 'kick':
 try {
-	if (msg.message.extendedTextMessage === undefined || msg.message.extendedTextMessage === null) return iky.sendReply('*Tag Target Yang Ingin Ditendang!*')
+	if (msg.message.extendedTextMessage === undefined || msg.message.extendedTextMessage === null) return replyeply('*Tag Target Yang Ingin Ditendang!*')
 	mentioned = msg.message.extendedTextMessage.contextInfo.mentionedJid[0]
 	puki.mentions(`Sayonara`, mentioned, true)
 	puki.groupRemove(from, [mentioned])
