@@ -1792,7 +1792,7 @@ try {
 	if (msg.message.extendedTextMessage === undefined || msg.message.extendedTextMessage === null) return replyeply('*Tag Target Yang Ingin Ditendang!*')
 	mentioned = msg.message.extendedTextMessage.contextInfo.mentionedJid[0]
 	puki.mentions(`Sayonara`, mentioned, true)
-	puki.groupRemove(from, [mentioned])
+	puki.groupRemove(from, mentioned)
 } catch {
 	reply('*Tag Target Yang Ingin Ditendang!*')
 }
@@ -2081,20 +2081,16 @@ let stemp = speed();
 reply(`Speed : *${laten.toFixed(4)} Second!*`)
 break
 case 'welcome':
-					if (args.length < 1) return reply('pilih enable atau disable udin!!')
-					if (args[0] == 'enable') {
-						if (isWelkom) return reply('Udah aktif um')
+					if (args.length < 1) return reply('1=on & 2=off')
+					if (Number(args[0]) === 1) {
+						if (isWelkom) return reply('Welcome Sudah Aktif')
 						welkom.push(from)
 						fs.writeFileSync('./lib/welkom.json', JSON.stringify(welkom))
-						reply('Sudah')
-					} else if (args[0] == 'disable') {
-					heh = from
-                inz = welkom.indexOf(heh)
-						welkom.splice(inz, 1)
+						reply('Berhasil Mengaktifkan Fitur Welcome')
+					} else if (Number(args[0]) === 0) {
+						welkom.splice(from, 1)
 						fs.writeFileSync('./lib/welkom.json', JSON.stringify(welkom))
-						reply('Sudah')
-					} else {
-						reply('pilih enable atau disable udin!!')
+						reply('Berhasil Mematikan Fitur Welcome')
 					}
 					break
 case 'ev':
