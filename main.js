@@ -82,8 +82,8 @@ if (!welkom.includes(anu.jid)) return
 				const iniGc = anu.jid.endsWith('@g.us')
 				const jumlahMem = iniGc ? mdata.participants : ''
 		try {
-			if (!puki.user.jid.includes(memJid) && anu.action == 'add' ) {
-			for (let i of mems) {
+			if (!puki.user.jid.includes(memJid) && anu.action == 'add' && welkom.includes(anu.jid)) {
+	for (let i of mems) {
 					const pic = ppimg
                 const welcomer = await new canvas.Welcome()
                     .setUsername(await pushnem)
@@ -102,7 +102,8 @@ if (!welkom.includes(anu.jid)) return
                 await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Welcome 👋@${memJid.split('@')[0]}\n`, contextInfo: { mentionedJid: [memJid] }})
                 }
 			} 
-			} else if (!puki.user.jid.includes(memJid) && anu.action == 'remove' ) {
+			if (!puki.user.jid.includes(memJid) && anu.action == 'remove' && welkom.includes(anu.jid)) {
+	
 					for (let i of mems) {
 					const bye = await new canvas.Goodbye()
                     .setUsername(await pushnem)
