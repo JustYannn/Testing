@@ -1488,6 +1488,7 @@ pinghaha =
 • Charger: ${baterai.isCharge}
 • Penggunaan RAM: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
 • Runtime: ${runtime(ap)}
+• ${banChats ? '> SELF-MODE' : '> PUBLIC-MODE'}
 
 「 *STATUS PHONE* 」
 
@@ -1945,8 +1946,8 @@ const ingfo = await getGroup(totalchat)
              case 'saveimg':
          try {
          ger = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-         owgi = await puki.downloadAndSaveMediaMessage(ger, `../storage/downloads/${args.join(' ')}`)
-         reply('Berhasil menyimpan file di folder Downloads')
+         owgi = await puki.downloadAndSaveMediaMessage(ger, `./media/${args.join(' ')}`)
+         reply('Berhasil menyimpan file di folder media')
          } catch (f) {
          reply('gagal kak!')
          puki.logger.error(f)
@@ -1955,8 +1956,8 @@ const ingfo = await getGroup(totalchat)
 					case 'savevid':
          try {
          ger = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-         owgi = await puki.downloadAndSaveMediaMessage(ger, `../storage/downloads/${args.join(' ')}`)
-         reply('Berhasil menyimpan file di folder Downloads')
+         owgi = await puki.downloadAndSaveMediaMessage(ger, `./media/${args.join(' ')}`)
+         reply('Berhasil menyimpan file di folder media')
          } catch (f) {
          reply('gagal kak!')
          puki.logger.error(f)
