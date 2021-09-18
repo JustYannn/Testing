@@ -1789,19 +1789,17 @@ case 'spam':
 		    reply('Sayonara')
 			break
             case 'kick':
-				var mentionedd = mek.message.extendedTextMessage.contextInfo.mentionedJid
-					if (mentionedd.length > 1) {
-					teks = ''
-					for (let _ of mentionedd) {
-					teks += `byeee🏃 :\n`
-					teks += `@_.split('@')[0]`
-					}
-					mentions(teks, mentionedd, true)
-					puki.groupRemove(from, mentionedd)
-					} else {
-					reply('Tag orang yang mau di kick')
-					}
-                break
+if (isCmd && !isBotGroupAdmins) return
+		if (isCmd && !isGroupAdmins) return
+try {
+	if (msg.message.extendedTextMessage === undefined || msg.message.extendedTextMessage === null) return iky.sendReply('*Tag Target Yang Ingin Ditendang!*')
+	mentioned = msg.message.extendedTextMessage.contextInfo.mentionedJid[0]
+	puki.mentions(`*Sayonara @${mentioned.split('@')[0]}*👋`, mentioned, true)
+	puki.groupRemove(from, [mentioned])
+} catch {
+	reply('*Tag Target Yang Ingin Ditendang!*')
+}
+break
                 case 'add2':
                 if (!isGroup) return reply('```Only group```')
                 if (!isBotGroupAdmins) return reply('```Jadikan bot sebagai admin```')
