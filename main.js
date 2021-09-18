@@ -71,7 +71,7 @@ if (!welkom.includes(anu.jid)) return
 		try {
 					ppimg = await puki.getProfilePicture(`${anu.participants[0].split('@')[0]}@c.us`)
 				} catch {
-					ppimg = puki.getProfilePicture(`${anu.jid}`)
+					ppimg = await puki.getProfilePicture(`${anu.jid}`)
 				}
 				const memJid = anu.participants[0]
 				const pushnem = puki.contacts[memJid] !== undefined ? puki.contacts[memJid].notify : PhoneNumber('+' + memJid.replace('@s.whatsapp.net', '')).getNumber('international')
