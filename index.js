@@ -33,7 +33,8 @@ const fetch = require('node-fetch');
 const phoneNum = require('awesome-phonenumber')
 const gis = require('g-i-s');
 const got = require("got");
-const imageToBase64 = require('image-to-base64');		
+const imageToBase64 = require('image-to-base64');
+const ID3Writer = require('browser-id3-writer');		
 const brainly = require('brainly-scraper')
 const yts = require( 'yt-search')
 const ms = require('parse-ms')
@@ -52,9 +53,9 @@ const _scommand = JSON.parse(fs.readFileSync('./lib/scommand.json'))
 const simple = require('./lib/simple.js')
 const setGelud = require('./lib/gameGelud.js')
 const { sendStickerFromUrl,sendMediaUrl, sendSticker, sendAudio, sendImage, sendVideo, sendContactArray, rejectIncomingCall, updateProfilePicture, copyNForward, cMod, genOrderMessage, waitEvent, sendImageAsSticker, sendMp4AsSticker, resend, sendContact, sendGroupV4Invite, prepareMessageMedia, getFile, sendFile, sendButton, sendButtonImg, send2ButtonImg, send3ButtonImg, send2Button, send3Button, fakeReply, fakeReply2, parseMention, getName, downloadM, serializeM, logic, generateProfilePicture, processTime, getRandom, getBuffer, fetchJson, fetchText, getGroupAdmins, runtime, clockString, sleep, getTime, formatDate, generateThumbnail, extractVideoThumb, delay, format, createExif, modStick, getBase64, webp2mp4File} = simple
-		///const welkom = JSON.parse(fs.readFileSync('./lib/welkom.json'))
-	
+			
 ky_ttt = []
+playing = []
 tttawal= ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
 baterai = {
 	battery: "" || "Tidak terdeteksi",
@@ -62,16 +63,17 @@ baterai = {
 }
 banChats = true
 offline = false
-targetpc = '6285793432434'
-owner = '6285793432434'
-fake = 'Xtress Men'
+targetpc = '6281318935994'
+owner = '6281318935994'
+fake = 'JustYann'
 numbernye = '0'
 waktu = '-'
 alasan = '-'
 //=================================================//
 module.exports = puki = async (puki, mek) => {
 	try {
-        if (!mek.hasNewMessage) return puki.updateProfileName(`Uptime ${clockString(process.uptime())}`)
+        if (!mek.hasNewMessage) return
+if (mek.key && mek.key.remoteJid == 'status@broadcast') return
         mek = mek.messages.all()[0]
 		if (!mek.message) return
 		global.blocked
@@ -139,13 +141,10 @@ const checkSCommand = (id) => {
              command = body.slice(1).trim().split(/ +/).shift().toLowerCase()		
 		const args = body.trim().split(/ +/).slice(1)
 		const isCmd = body.startsWith(prefix)
-            
 		const q = args.join(' ')
 		const botNumber = puki.user.jid
 		const botNumberss = puki.user.jid + '@c.us'
 		const isGroup = from.endsWith('@g.us')
-///const isWelkom = isGroup ? welkom.includes(from) : false
-
 		let sender = isGroup ? mek.participant : mek.key.remoteJid
 		const totalchat = await puki.chats.all()
 		const groupMetadata = isGroup ? await puki.groupMetadata(from) : ''
@@ -218,12 +217,6 @@ const mention = typeof(mentionByTag) == 'string' ? [mentionByTag] : mentionByTag
 		mention != undefined ? mention.push(mentionByReply) : []
 
 
-            if (m.mtype == 'viewOnceMessage'){
-            message = {...mek}
-            message.message = mek.message.viewOnceMessage.message
-            message.message[Object.keys(message.message)[0]].viewOnce = false
-            puki.reply(from, 'ViewOnce detected!', mek).then(() => puki.forwardMessage(from, message))
-}
             const getGroup = async function(totalchat){
 	let grup = []
 	let ace = []
@@ -385,7 +378,6 @@ const fakestatus = (teks) => {
 
 //FUNCTION
             cekafk(afk)
-            if (mek.key && mek.key.remoteJid == 'status@broadcast') return
             if (!mek.key.remoteJid.endsWith('@g.us') && offline){
             if (!mek.key.fromMe){
             if (isAfk(mek.key.remoteJid)) return
@@ -492,7 +484,7 @@ switch (command) {
 	break
     case 'jadibot':
     if(mek.key.fromMe) return reply('Tidak bisa jadibot di dalam bot')
-    jadibot(reply,sender,puki,from)
+    jadibot(reply,puki,from)
     break
     case 'stopjadibot':
     if(mek.key.fromMe)return reply('tidak bisa stopjadibot kecuali owner')
@@ -595,7 +587,6 @@ Prefix : ${prefix}
 ► _${prefix}setfake_
 ► _${prefix}setreply_
 ► _${prefix}ping_
-► _${prefix}speed_
 ► _${prefix}inspect_
 ► _${prefix}join_
 ► _${prefix}caripesan_ <query>
@@ -603,7 +594,6 @@ Prefix : ${prefix}
 ► _${prefix}term_ <code>
 ► _${prefix}saveimg_ <reply image + FileName>
 ► _${prefix}savevid_ <reply video + FileName>
-► _ev_ <code>
 ► _>_ <code>
 
 *</JADI BOT>*
@@ -992,19 +982,79 @@ ${anime.desc}\n\n*Link Batch* : ${anime.batch}\n*Link Download SD* : ${anime.bat
             + `TEL;type=CELL;type=VOICE;waid=${entah}:${phoneNum('+' + entah).getNumber('internasional')}\n`
             + 'END:VCARD'.trim()
             puki.sendMessage(from, {displayName: `${nah}`, vcard: vcard}, contact)
-            break   
-case 'take':
-case 'colong':
-case 'swm':
-    case 'stickwm':
-    		encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
+            break    
+    case 'take':
+    case 'colong':
+    		if (!isQuotedSticker) return reply('Stiker aja om')
+            encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 		    media = await puki.downloadAndSaveMediaMessage(encmedia)
             anu = args.join(' ').split('|')
-            satu = anu[0] !== '' ? anu[0] : `Alan`
-            dua = typeof anu[1] !== 'undefined' ? anu[1] : `@shitpost.id_._`
+            satu = anu[0] !== '' ? anu[0] : `SELF`
+            dua = typeof anu[1] !== 'undefined' ? anu[1] : `BOT`
             createExif(satu, dua)
 			modStick(media, puki, mek, from)
 			break
+	case 'stikerwm':
+	case 'stickerwm':
+    case 'swm':
+            pe = args.join('')
+            var a = pe.split("|")[0];
+            var b = pe.split("|")[1];
+            if (isMedia && !mek.message.videoMessage || isQuotedImage ) {
+            const encmedia = isQuotedImage   ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
+             media = await puki.downloadAndSaveMediaMessage(encmedia)
+            await createExif(a,b)
+            out = getRandom('.webp')
+            ffmpeg(media)
+            .on('error', (e) => {
+            console.log(e)
+            puki.sendMessage(from, 'Terjadi kesalahan', 'conversation', { quoted: mek })
+            fs.unlinkSync(media)
+            })
+            .on('end', () => {
+            _out = getRandom('.webp')
+            spawn('webpmux', ['-set','exif','./media/stik/data.exif', out, '-o', _out])
+            .on('exit', () => {
+            puki.sendMessage(from, fs.readFileSync(_out),'stickerMessage', { quoted: mek })
+            fs.unlinkSync(out)
+            fs.unlinkSync(_out)
+            fs.unlinkSync(media)
+            })
+            })
+            .addOutputOptions([`-vcodec`,`libwebp`,`-vf`,`scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
+            .toFormat('webp')
+            .save(out) 
+            } else if ((isMedia && mek.message.videoMessage.seconds < 11 || isQuotedVideo && mek.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 11) && args.length == 0) {
+            const encmedia = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
+            const media = await puki.downloadAndSaveMediaMessage(encmedia)
+            pe = args.join('')
+            var a = pe.split("|")[0];
+            var b = pe.split("|")[1];
+            await createExif(a,b)
+            out = getRandom('.webp')
+            ffmpeg(media)
+            .on('error', (e) => {
+            console.log(e)
+            puki.sendMessage(from, 'Terjadi kesalahan', 'conversation', { quoted: mek })
+            fs.unlinkSync(media)
+            })
+            .on('end', () => {
+            _out = getRandom('.webp')
+            spawn('webpmux', ['-set','exif','./media/stik/data.exif', out, '-o', _out])
+            .on('exit', () => {
+            puki.sendMessage(from, fs.readFileSync(_out),'stickerMessage', { quoted: mek })
+            fs.unlinkSync(out)
+            fs.unlinkSync(_out)
+            fs.unlinkSync(media)
+            })
+            })
+            .addOutputOptions([`-vcodec`,`libwebp`,`-vf`,`scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
+            .toFormat('webp')
+            .save(out)       
+            } else {
+            reply(`Kirim gambar dengan caption ${prefix}swm teks|teks atau tag gambar yang sudah dikirim`)
+            }
+            break
     case 'upswteks':
     case 'upswtxt':
             if (!q) return fakestatus( 'Isi teksnya!')
@@ -1396,6 +1446,7 @@ case 'swm':
             sendMediaURL(from,ren,'DONE')
             break
     case 'runtime':
+    case 'test':
             run = process.uptime() 
             teks = `${runtime(run)}`
             fakegroup( teks)
@@ -1427,7 +1478,6 @@ pinghaha =
 • Charger: ${baterai.isCharge}
 • Penggunaan RAM: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
 • Runtime: ${runtime(ap)}
-• ${banChats ? '> SELF-MODE' : '> PUBLIC-MODE'}
 
 「 *STATUS PHONE* 」
 
@@ -1728,15 +1778,19 @@ case 'spam':
 		    reply('Sayonara')
 			break
             case 'kick':
-try {
-	if (msg.message.extendedTextMessage === undefined || msg.message.extendedTextMessage === null) return replyeply('*Tag Target Yang Ingin Ditendang!*')
-	mentioned = msg.message.extendedTextMessage.contextInfo.mentionedJid[0]
-	puki.mentions(`Sayonara`, mentioned, true)
-	puki.groupRemove(from, mentioned)
-} catch {
-	reply('*Tag Target Yang Ingin Ditendang!*')
-}
-break
+				var mentionedd = mek.message.extendedTextMessage.contextInfo.mentionedJid
+					if (mentionedd.length > 1) {
+					teks = ''
+					for (let _ of mentionedd) {
+					teks += `byeee🏃 :\n`
+					teks += `@_.split('@')[0]`
+					}
+					mentions(teks, mentionedd, true)
+					puki.groupRemove(from, mentionedd)
+					} else {
+					reply('Tag orang yang mau di kick')
+					}
+                break
                 case 'add2':
                 if (!isGroup) return reply('```Only group```')
                 if (!isBotGroupAdmins) return reply('```Jadikan bot sebagai admin```')
@@ -1747,6 +1801,7 @@ break
                 break
             case 'add':
 					if (!isGroup) return reply(mess.only.group)
+					if (!isOwner & !dev.key.fromMe & !isGroupAdmins) return reply('Bot bukan admin')
 					if (!isBotGroupAdmins) return reply(mess.badmin)
 					if (args.length < 1) return reply('Yang mau di add?')
 					if (args[0].startsWith('08')) return reply('Gunakan kode negara')
@@ -1873,11 +1928,11 @@ const ingfo = await getGroup(totalchat)
             if ( isMedia && !mek.message.videoMessage || isQuotedImage ) {
             const omce = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
             once = await puki.downloadMediaMessage(omce)
-            puki.sendMessage(from, once, image, { quoted: mek, viewOnce : true})
+            puki.sendMessage(from, once, image, { viewOnce : true})
             } else if (isQuotedVideo) {
             	const omce2 = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
             once2 = await puki.downloadMediaMessage(omce2)
-            puki.sendMessage(from, once2, video, { quoted: mek, viewOnce : true})
+            puki.sendMessage(from, once2, video, { viewOnce : true})
             } else {
             fakestatus( 'Reply image/video!!')
             }
@@ -1885,8 +1940,8 @@ const ingfo = await getGroup(totalchat)
              case 'saveimg':
          try {
          ger = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-         owgi = await puki.downloadAndSaveMediaMessage(ger, `./media/${args.join(' ')}`)
-         reply('Berhasil menyimpan file di folder media')
+         owgi = await puki.downloadAndSaveMediaMessage(ger, `../storage/downloads/${args.join(' ')}`)
+         reply('Berhasil menyimpan file di folder Downloads')
          } catch (f) {
          reply('gagal kak!')
          puki.logger.error(f)
@@ -1895,8 +1950,8 @@ const ingfo = await getGroup(totalchat)
 					case 'savevid':
          try {
          ger = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-         owgi = await puki.downloadAndSaveMediaMessage(ger, `./media/${args.join(' ')}`)
-         reply('Berhasil menyimpan file di folder media')
+         owgi = await puki.downloadAndSaveMediaMessage(ger, `../storage/downloads/${args.join(' ')}`)
+         reply('Berhasil menyimpan file di folder Downloads')
          } catch (f) {
          reply('gagal kak!')
          puki.logger.error(f)
@@ -2014,32 +2069,34 @@ const ingfo = await getGroup(totalchat)
                 })
                 break
 
-case 'speed':
-let stemp = speed();
-				let laten = speed() - stemp
-reply(`Speed : *${laten.toFixed(4)} Second!*`)
-break
-case 'welcome':
-					if (args.length < 1) return reply('1=on & 2=off')
-					if (Number(args[0]) === 1) {
-						if (isWelkom) return reply('Welcome Sudah Aktif')
-						welkom.push(from)
-						fs.writeFileSync('./lib/welkom.json', JSON.stringify(welkom))
-						reply('Berhasil Mengaktifkan Fitur Welcome')
-					} else if (Number(args[0]) === 0) {
-						welkom.splice(from, 1)
-						fs.writeFileSync('./lib/welkom.json', JSON.stringify(welkom))
-						reply('Berhasil Mematikan Fitur Welcome')
-					}
-					break
-case 'ev':
-try {
-return puki.sendMessage(from, JSON.stringify(eval(`${args.join(' ')}`),null,'\t'),text, {quoted: mek})
-} catch(err) {
-e = String(err)
-reply(e)
-}
-break
+case 'comic':
+                if (args.length < 1) return reply(`Kirim perintah *${prefix}foooliokanan* teks`)
+                reply(mess.wait)
+                const foooKanan = q
+                const foooliKanan = foooKanan.replace(/(\S+\s*){1,13}/g, '$&\n')
+                const fooolKanan = foooKanan.split('\n').slice(0, 38).join('\n')
+                spawn('convert', [
+                    './media/nulis/images/folio/sebelumkanan.jpg',
+                    '-font',
+                    './media/sia/Stanberry.ttf',
+                    '-size',
+                    '1280x1280',
+                    '-pointsize',
+                    '23',
+                    '-interline-spacing',
+                    '12',
+                    '-annotate',
+                    '+89+190',
+                    fooolKanan,
+                    './media/nulis/images/folio/setelahkanan.jpg'
+                ])
+                .on('error', () => reply(mess.error.api))
+                .on('exit', () => {
+                    puki.sendMessage(from, fs.readFileSync('./media/nulis/images/folio/setelahkanan.jpg'), image, {quoted: mek, caption: `Sukses`})
+                
+                })
+                break
+
             default:
             
 if (fs.existsSync(`./lib/${from}.json`)) {
