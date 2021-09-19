@@ -65,7 +65,7 @@ puki.on('CB:action,,call', async json => {
 
 })
 
-puki.on('group-participants-update', async (anu) => {
+/**puki.on('group-participants-update', async (anu) => {
 if (!welkom.includes(anu.jid)) return
 	console.log(anu)
 		try {
@@ -125,7 +125,7 @@ if (!welkom.includes(anu.jid)) return
 		} catch (e) {
 			console.log('Error : %s', color(e, 'red'))
 		}
-	})
+	})**/
 		puki.on('close', async () => {
   if (puki.state == 'close') {
   puki.logger.error('Reconnecting...')
