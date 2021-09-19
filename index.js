@@ -992,79 +992,19 @@ ${anime.desc}\n\n*Link Batch* : ${anime.batch}\n*Link Download SD* : ${anime.bat
             + `TEL;type=CELL;type=VOICE;waid=${entah}:${phoneNum('+' + entah).getNumber('internasional')}\n`
             + 'END:VCARD'.trim()
             puki.sendMessage(from, {displayName: `${nah}`, vcard: vcard}, contact)
-            break    
-    case 'take':
-    case 'colong':
-    		if (!isQuotedSticker) return reply('Stiker aja om')
-            encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
+            break   
+case 'take':
+case 'colong':
+case 'swm':
+    case 'stickwm':
+    		encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 		    media = await puki.downloadAndSaveMediaMessage(encmedia)
             anu = args.join(' ').split('|')
-            satu = anu[0] !== '' ? anu[0] : `SELF`
-            dua = typeof anu[1] !== 'undefined' ? anu[1] : `BOT`
+            satu = anu[0] !== '' ? anu[0] : `Alan`
+            dua = typeof anu[1] !== 'undefined' ? anu[1] : `@shitpost.id_._`
             createExif(satu, dua)
 			modStick(media, puki, mek, from)
 			break
-	case 'stikerwm':
-	case 'stickerwm':
-    case 'swm':
-            pe = args.join('')
-            var a = pe.split("|")[0];
-            var b = pe.split("|")[1];
-            if (isMedia && !mek.message.videoMessage || isQuotedImage ) {
-            const encmedia = isQuotedImage   ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-             media = await puki.downloadAndSaveMediaMessage(encmedia)
-            await createExif(a,b)
-            out = getRandom('.webp')
-            ffmpeg(media)
-            .on('error', (e) => {
-            console.log(e)
-            puki.sendMessage(from, 'Terjadi kesalahan', 'conversation', { quoted: mek })
-            fs.unlinkSync(media)
-            })
-            .on('end', () => {
-            _out = getRandom('.webp')
-            spawn('webpmux', ['-set','exif','./media/stik/data.exif', out, '-o', _out])
-            .on('exit', () => {
-            puki.sendMessage(from, fs.readFileSync(_out),'stickerMessage', { quoted: mek })
-            fs.unlinkSync(out)
-            fs.unlinkSync(_out)
-            fs.unlinkSync(media)
-            })
-            })
-            .addOutputOptions([`-vcodec`,`libwebp`,`-vf`,`scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
-            .toFormat('webp')
-            .save(out) 
-            } else if ((isMedia && mek.message.videoMessage.seconds < 11 || isQuotedVideo && mek.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 11) && args.length == 0) {
-            const encmedia = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-            const media = await puki.downloadAndSaveMediaMessage(encmedia)
-            pe = args.join('')
-            var a = pe.split("|")[0];
-            var b = pe.split("|")[1];
-            await createExif(a,b)
-            out = getRandom('.webp')
-            ffmpeg(media)
-            .on('error', (e) => {
-            console.log(e)
-            puki.sendMessage(from, 'Terjadi kesalahan', 'conversation', { quoted: mek })
-            fs.unlinkSync(media)
-            })
-            .on('end', () => {
-            _out = getRandom('.webp')
-            spawn('webpmux', ['-set','exif','./media/stik/data.exif', out, '-o', _out])
-            .on('exit', () => {
-            puki.sendMessage(from, fs.readFileSync(_out),'stickerMessage', { quoted: mek })
-            fs.unlinkSync(out)
-            fs.unlinkSync(_out)
-            fs.unlinkSync(media)
-            })
-            })
-            .addOutputOptions([`-vcodec`,`libwebp`,`-vf`,`scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
-            .toFormat('webp')
-            .save(out)       
-            } else {
-            reply(`Kirim gambar dengan caption ${prefix}swm teks|teks atau tag gambar yang sudah dikirim`)
-            }
-            break
     case 'upswteks':
     case 'upswtxt':
             if (!q) return fakestatus( 'Isi teksnya!')
