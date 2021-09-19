@@ -52,7 +52,7 @@ const _scommand = JSON.parse(fs.readFileSync('./lib/scommand.json'))
 const simple = require('./lib/simple.js')
 const setGelud = require('./lib/gameGelud.js')
 const { sendStickerFromUrl,sendMediaUrl, sendSticker, sendAudio, sendImage, sendVideo, sendContactArray, rejectIncomingCall, updateProfilePicture, copyNForward, cMod, genOrderMessage, waitEvent, sendImageAsSticker, sendMp4AsSticker, resend, sendContact, sendGroupV4Invite, prepareMessageMedia, getFile, sendFile, sendButton, sendButtonImg, send2ButtonImg, send3ButtonImg, send2Button, send3Button, fakeReply, fakeReply2, parseMention, getName, downloadM, serializeM, logic, generateProfilePicture, processTime, getRandom, getBuffer, fetchJson, fetchText, getGroupAdmins, runtime, clockString, sleep, getTime, formatDate, generateThumbnail, extractVideoThumb, delay, format, createExif, modStick, getBase64, webp2mp4File} = simple
-		const welkom = JSON.parse(fs.readFileSync('./lib/welkom.json'))
+		///const welkom = JSON.parse(fs.readFileSync('./lib/welkom.json'))
 	
 ky_ttt = []
 tttawal= ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
@@ -144,7 +144,7 @@ const checkSCommand = (id) => {
 		const botNumber = puki.user.jid
 		const botNumberss = puki.user.jid + '@c.us'
 		const isGroup = from.endsWith('@g.us')
-const isWelkom = isGroup ? welkom.includes(from) : false
+///const isWelkom = isGroup ? welkom.includes(from) : false
 
 		let sender = isGroup ? mek.participant : mek.key.remoteJid
 		const totalchat = await puki.chats.all()
