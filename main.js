@@ -14,9 +14,7 @@ const chalk = require('chalk')
 const moment = require("moment-timezone")
 const { spawn, exec, execSync } = require("child_process")
  const figlet = require('figlet')
- const welkom = JSON.parse(fs.readFileSync('./lib/welkom.json'));
-///const canvas = require('discord-canvas')
-
+ 
 require('./index.js')
 nocache('./index.js', module => console.log(color('├ [ INFO ]', 'cyan'), `${module} updated`))
 nocache('./main.js', module => console.log(color('├ [ INFO ]', 'cyan'), `${module} updated`))
@@ -29,103 +27,35 @@ const starts = async (puki = new WAConnection(), mek) => {
 puki.removeAllListeners('close')
 puki.removeAllListeners('error')
 m = simple.smsg(puki, mek)
-console.log(color(figlet.textSync('HEROKU', {
+console.log(color(figlet.textSync('BOT', {
 		font: 'Alpha',
 		horizontalLayout: 'center',
 		vertivalLayout: 'center',
 		width: 50,
 		whitespaceBreak: false
 	}), 'cyan'))
+    console.log(banner.string)
     puki.on('qr', () => {
         console.log(color('[','white'), color('!','red'), color(']','white'), color(' Scan bang'))
     })
-    puki.on('message-delete', async (m) => {
-    	if (!m.key.fromMe && m.key.fromMe) return
-const jam = moment.tz('Asia/Jakarta').format('HH:mm:ss')
-let d = new Date
-let locale = 'id'
-let gmt = new Date(0).getTime() - new Date('1 Januari 2021').getTime()
-let weton = ['Pahing', 'Pon','Wage','Kliwon','Legi'][Math.floor(((d * 1) + gmt) / 84600000) % 5]
-let week = d.toLocaleDateString(locale, { weekday: 'long' })
-let calender = d.toLocaleDateString(locale, {
-day: 'numeric',
-month: 'long',
-year: 'numeric'
-})
-const type = Object.keys(m.message)[0]
-    puki.sendMessage("6285793432434-1618061428@g.us", `╭────「  MESSAGE DELETED 」───\n├\n├ Nama : *@${m.participant.split("@")[0]}*\n├ Time : *${jam} ${week} ${calender}*\n├ Type : *${type}*\n├\n╰────「  MESSAGE DELETED」───`, MessageType.text, {quoted: m.message, contextInfo: {"mentionedJid": [m.participant]}})
-      puki.copyNForward("6285793432434-1618061428@g.us", m.message).catch(e => console.log(e, m))
-    console.log(m.message)
+    puki.on('message-delete', async (m) => {
+    	if (!m.key.fromMe && m.key.fromMe) return
+const jam = moment.tz('Asia/Jakarta').format('HH:mm:ss')
+let d = new Date
+let locale = 'id'
+let gmt = new Date(0).getTime() - new Date('1 Januari 2021').getTime()
+let weton = ['Pahing', 'Pon','Wage','Kliwon','Legi'][Math.floor(((d * 1) + gmt) / 84600000) % 5]
+let week = d.toLocaleDateString(locale, { weekday: 'long' })
+let calender = d.toLocaleDateString(locale, {
+day: 'numeric',
+month: 'long',
+year: 'numeric'
+})
+const type = Object.keys(m.message)[0]
+    puki.sendMessage(puki.user.jid, `╭────「  MESSAGE DELETED 」───\n├\n├ Nama : *@${m.participant.split("@")[0]}*\n├ Time : *${jam} ${week} ${calender}*\n├ Type : *${type}*\n├\n╰────「  MESSAGE DELETED」───`, MessageType.text, {quoted: m.message, contextInfo: {"mentionedJid": [m.participant]}})
+      puki.copyNForward(puki.user.jid, m.message).catch(e => console.log(e, m))
+    console.log(m.message)
     })
-puki.on('CB:action,,call', async json => {
-    let { from } = json[2][0][1]
-    let id = json[2][0][2][0][1]["call-id"]
-    await puki.rejectIncomingCall(from, id)
-   ///await puki.sendMessage(from, '「 Reject Call 」\nAuto Reject, Maaf', 'conversation')
-
-})
-
-/**puki.on('group-participants-update', async (anu) => {
-if (!welkom.includes(anu.jid)) return
-	console.log(anu)
-		try {
-					ppimg = await puki.getProfilePicture(`${anu.participants[0].split('@')[0]}@c.us`)
-				} catch {
-					ppimg = await puki.getProfilePicture(`${anu.jid}`)
-				}
-				const memJid = anu.participants[0]
-				const pushnem = puki.contacts[memJid] !== undefined ? puki.contacts[memJid].notify : PhoneNumber('+' + memJid.replace('@s.whatsapp.net', '')).getNumber('international')
-				const mems = anu.participants
-				const pushname = await puki.getName(memJid)
-				const from = anu.jid
-				const mdata = await puki.groupMetadata(anu.jid)
-				const iniGc = anu.jid.endsWith('@g.us')
-				const jumlahMem = iniGc ? mdata.participants : ''
-		try {
-			if (!puki.user.jid.includes(memJid) && anu.action == 'add' && welkom.includes(anu.jid)) {
-	for (let i of mems) {
-					const pic = ppimg
-                const welcomer = await new canvas.Welcome()
-                    .setUsername(await pushnem)
-                    .setDiscriminator(mdata.participants.length)
-                    .setMemberCount(mdata.participants.length)
-                    .setGuildName(mdata.subject)
-                    .setAvatar(pic)
-                    .setColor('border', '#00100c')
-                    .setColor('username-box', '#00100c')
-                    .setColor('discriminator-box', '#00100c')
-                    .setColor('message-box', '#00100c')
-                    .setColor('title', '#7bff00')
-                    .setBackground(fs.readFileSync('./media/welkam/back.jpeg'))
-                    .toAttachment()
-                const base64 = `${welcomer.toBuffer().toString('base64')}`
-                await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Welcome 👋@${memJid.split('@')[0]}\n`, contextInfo: { mentionedJid: [memJid] }})
-                }
-			} 
-			if (!puki.user.jid.includes(memJid) && anu.action == 'remove' && welkom.includes(anu.jid)) {
-	
-					for (let i of mems) {
-					const bye = await new canvas.Goodbye()
-                    .setUsername(await pushnem)
-                    .setDiscriminator(mdata.participants.length)
-                    .setMemberCount(mdata.participants.length)
-                    .setGuildName(mdata.subject)
-                    .setAvatar(ppimg)
-                    .setColor('border', '#00100c')
-                    .setColor('username-box', '#00100c')
-                    .setColor('discriminator-box', '#00100c')
-                    .setColor('message-box', '#00100c')
-                    .setColor('title', '#6600ff')
-                    .setBackground(fs.readFileSync('./media/welkam/back.jpeg'))
-                    .toAttachment()
-                const base64 = `${bye.toBuffer().toString('base64')}`
-                await puki.sendMessage(anu.jid, Buffer.from(base64, 'base64'), MessageType.image, { caption: `Sayonara👋@${memJid.split('@')[0]}\n`, contextInfo: { mentionedJid: [memJid] }})
-			}
-			}
-		} catch (e) {
-			console.log('Error : %s', color(e, 'red'))
-		}
-	})**/
 		puki.on('close', async () => {
   if (puki.state == 'close') {
   puki.logger.error('Reconnecting...')
