@@ -15,7 +15,7 @@ const moment = require("moment-timezone")
 const { spawn, exec, execSync } = require("child_process")
  const figlet = require('figlet')
  const welkom = JSON.parse(fs.readFileSync('./lib/welkom.json'));
-const canvas = require('discord-canvas')
+///const canvas = require('discord-canvas')
 
 require('./index.js')
 nocache('./index.js', module => console.log(color('├ [ INFO ]', 'cyan'), `${module} updated`))
