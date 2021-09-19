@@ -1396,7 +1396,6 @@ case 'swm':
             sendMediaURL(from,ren,'DONE')
             break
     case 'runtime':
-    case 'test':
             run = process.uptime() 
             teks = `${runtime(run)}`
             fakegroup( teks)
